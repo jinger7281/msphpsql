@@ -1,105 +1,108 @@
-# Microsoft Drivers for PHP for SQL Server
+# Microsoft Drivers for PHP for Microsoft SQL Server
 
-**Welcome to the Microsoft Drivers for PHP for SQL Server PHP 7 on Windows**
+**Welcome to the Microsoft Drivers for PHP for Microsoft SQL Server**
 
-**Note:** For the PHP 5 project, see the PHP 5 branch, and for Linux project, see PHP 7.0-Linux branch.
+The Microsoft Drivers for PHP for Microsoft SQL Server are PHP extensions that allow for the reading and writing of SQL Server data from within PHP scripts. The SQLSRV extension provides a procedural interface while the PDO_SQLSRV extension implements PHP Data Objects (PDO) for accessing data in all editions of SQL Server 2008 R2 and later (including Azure SQL DB). These drivers rely on the Microsoft ODBC Driver for SQL Server to handle the low-level communication with SQL Server.
 
-The Microsoft Drivers for PHP for SQL Server are PHP extensions that allow for the reading and writing of SQL Server data from within PHP scripts. The SQLSRV extension provides a procedural interface while the PDO_SQLSRV extension implements PDO for accessing data in all editions of SQL Server 2005 and later (including Azure SQL DB). These drivers rely on the Microsoft ODBC Driver for SQL Server to handle the low-level communication with SQL Server.
+This release contains the SQLSRV and PDO_SQLSRV drivers for PHP 7.* with improvements on both drivers and some limitations (see Limitations below for details).  Upcoming releases will contain additional functionality, bug fixes, and more (see Plans below for more details).
 
-This release contains the SQLSRV and PDO_SQLSRV drivers for PHP 7 with improvements on both drivers and some limitations (see Limitations below for details).  Upcoming release(s) will contain more functionality, bug fixes, and more (see Plans below for more details).
+SQL Server Team
 
-The Microsoft Drivers for PHP for SQL Server Team
 
-##Announcements
+## Take our survey
 
-**August 22, 2016** (4.1.1): Updated Windows drivers built and compiled with PHP 7.0.9 are available and include a couple of bug fixes:
+Thank you for taking the time to participate in our last survey. You can continue to help us improve by letting us know how we are doing and how you use PHP by taking our December pulse survey:
 
-- Fixed issue with storing integers in varchar field.
-- Fixed issue with invalid connection handler if one connection fails.
-- Fixed crash when emulate prepare is on.
+<a href="https://aka.ms/mssqlphpsurvey"><img style="float: right;"  height="67" width="156" src="https://meetsstorenew.blob.core.windows.net/contianerhd/survey.png?st=2017-02-17T22%3A03%3A00Z&se=2100-02-18T22%3A03%3A00Z&sp=rl&sv=2015-12-11&sr=b&sig=DJSFoihBptSvO%2BjvWzwpHecf8o5yfAbJoD2qW5oB8tc%3D"></a>
 
-**July 28, 2016** (4.1.0): Thanks to the community's input, this release expands drivers functionalities and also includes some bug fixes:
+### Status of Most Recent Builds
+| AppVeyor (Windows)       | Travis CI (Linux)        | Coverage (Windows)                    | Coverage (Linux)                          |
+|--------------------------|--------------------------|---------------------------------------|-------------------------------------------|
+| [![av-image][]][av-site] | [![tv-image][]][tv-site] | [![Coverage Codecov][]][codecov-site] | [![Coverage Coveralls][]][coveralls-site] |
 
- - `SQLSRV_ATTR_FETCHES_NUMERIC_TYPE`  connection attribute flag is added to PDO_SQLSRV driver to handle numeric fetches from columns with numeric Sql types (only bit, integer, smallint, tinyint, float and real). This flag can be turned on by setting its value in  `PDO::setAttribute` to `true`, For example,
-               `$conn->setAttribute(PDO::SQLSRV_ATTR_FETCHES_NUMERIC_TYPE,true);` 
-		  If `SQLSRV_ATTR_FETCHES_NUMERIC_TYPE`  is set to `true` the results from an integer column will be represented as an `int`, likewise, Sql types float and real will be represented as `float`. 
-		  Note for exceptions:
-	 - When connection option flag `ATTR_STRINGIFY_FETCHES` is on, even when `SQLSRV_ATTR_FETCHES_NUMERIC_TYPE` is on, the return value will still be string.
-	 - 	When the returned PDO type in bind column is `PDO_PARAM_INT`, the return value from a integer column will be int even if `SQLSRV_ATTR_FETCHES_NUMERIC_TYPE` is off.
- - Fixed float truncation when using buffered query. 
- - Fixed handling of Unicode strings and binary when emulate prepare is on in `PDOStatement::bindParam`.  To bind a unicode string, `PDO::SQLSRV_ENCODING_UTF8` should be set using `$driverOption`, and to bind a string to column of Sql type binary, `PDO::SQLSRV_ENCODING_BINARY` should be set.
- - Fixed string truncation in bind output parameters when the size is not set and the length of initialized variable is less than the output.
- - Fixed bind string parameters as bidirectional parameters (`PDO::PARAM_INPUT_OUTPUT `) in PDO_SQLSRV driver. Note for output or bidirectional parameters, `PDOStatement::closeCursor` should be called to get the output value.
+[av-image]:  https://ci.appveyor.com/api/projects/status/xhp4nq9ouljnhxqf/branch/dev?svg=true
+[av-site]: https://ci.appveyor.com/project/Microsoft-PHPSQL/msphpsql-frhmr/branch/dev
+[tv-image]:  https://travis-ci.org/Microsoft/msphpsql.svg?branch=dev
+[tv-site]: https://travis-ci.org/Microsoft/msphpsql/
+[Coverage Coveralls]: https://coveralls.io/repos/github/Microsoft/msphpsql/badge.svg?branch=dev
+[coveralls-site]: https://coveralls.io/github/Microsoft/msphpsql?branch=dev
+[Coverage Codecov]: https://codecov.io/gh/microsoft/msphpsql/branch/dev/graph/badge.svg
+[codecov-site]: https://codecov.io/gh/microsoft/msphpsql
 
-**July 06, 2016**: PHP Driver 4.0 for SQL Server with PHP 7 support is now GA. You can get the binaries [HERE](https://github.com/Azure/msphpsql/releases) or download the exe from the [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=20098).
- 
+## Get Started
+
+* [**Windows + SQL Server + PHP 7**](https://www.microsoft.com/en-us/sql-server/developer-get-started/php/windows)
+* [**Ubuntu + SQL Server + PHP 7**](https://www.microsoft.com/en-us/sql-server/developer-get-started/php/ubuntu)
+* [**RedHat + SQL Server + PHP 7**](https://www.microsoft.com/en-us/sql-server/developer-get-started/php/rhel)
+* [**SUSE + SQL Server + PHP 7**](https://www.microsoft.com/en-us/sql-server/developer-get-started/php/sles)
+* [**macOS + SQL Server + PHP 7**](https://www.microsoft.com/en-us/sql-server/developer-get-started/php/mac/)
+* [**Docker**](https://hub.docker.com/r/lbosqmsft/mssql-php-msphpsql/)
+
+
+## Announcements
+
  Please visit the [blog][blog] for more announcements.
 
+## Prerequisites
 
-## Build
+For full details on the system requirements for the drivers, see the [system requirements](https://docs.microsoft.com/en-us/sql/connect/php/system-requirements-for-the-php-sql-driver) on MSDN.
 
-Note: if you prefer, you can use the pre-compiled binary found [HERE](https://github.com/Azure/msphpsql/releases)
-
-####Prerequisites
-
-You must first be able to build PHP 7 without including these extensions.  For help with doing this, see the [official PHP website][phpbuild] for building your own PHP on Windows.
-
-####Compile the drivers
-
-1. Copy the sqlsrv and/or pdo_sqlsrv source code directory from this repository into the ext subdirectory.
-
-2. Run `buildconf.bat` to rebuild the configure.js script to include the driver.
-
-3. Run `configure.bat --with-odbcver=0x0380 and the desired driver options (as below) [plus other options such as --disable-zts for the Non Thread Safe build]` to generate the makefile.  You can run `configure.bat --help` to see what other options are available.
-  * For SQLSRV use: `--enable-sqlsrv=shared`
-  * For PDO_SQLSRV use: `--enable-pdo=shared --with-pdo-sqlsrv=shared`
-
-4. Run `nmake`.  It is suggested that you run the entire build.  If you wish to do so, run `nmake clean` first.
-
-5. To install the resulting build, run `nmake install` or just copy php_sqlsrv.dll and/or php_pdo_sqlsrv.dll to your PHP extension directory.
-
-This software has been compiled and tested under PHP 7.0.8 using the Visual C++ 2015 compiler.
-
-## Install
-
-####Prerequisites
-
+On the client machine:
+- PHP 7.0.x, 7.1.x, or 7.2.x (7.2.0 and up on Unix, 7.2.1 and up on Windows)
 - A Web server such as Internet Information Services (IIS) is required. Your Web server must be configured to run PHP
-- [Microsoft ODBC Driver 11][odbc11] or [Microsoft ODBC Driver 13][odbc13]
+- [Microsoft ODBC Driver 11][odbc11], [Microsoft ODBC Driver 13][odbc13], or [Microsoft ODBC Driver 17][odbc17]
 
-####Enable the drivers
+On the server side, Microsoft SQL Server 2008 R2 and above on Windows is supported, as is Microsoft SQL Server 2016 and above on Linux.
 
-1. Make sure that the driver is in your PHP extension directory (you can simply copy it there if you did not use nmake install).
+## Building and Installing the Drivers on Windows
 
-2. Enable it within your PHP installation's php.ini: `extension=php_sqlsrv.dll` and/or `extension=php_pdo_sqlsrv.dll`.  If necessary, specify the extension directory using extension_dir, for example: `extension_dir = "C:\PHP\ext"`
+The drivers are distributed as pre-compiled extensions for PHP found on the [releases page](https://github.com/Microsoft/msphpsql/releases). They are available in thread-safe and non thread-safe versions, and in 32-bit and 64-bit versions. The source code for the drivers is also available, and you can compile them as thread safe or non-thread safe versions. The thread safety configuration of your web server will determine which version you need. 
+ 
+If you choose to build the drivers, you must be able to build PHP 7 without including these extensions. For help building PHP on Windows, see the [official PHP website][phpbuild]. For details on compiling the drivers, see the [documentation](https://github.com/Microsoft/msphpsql/tree/dev/buildscripts#windows) -- an example buildscript is provided, but you can also compile the drivers manually.
 
-3. Restart the Web server.
+To load the drivers, make sure that the driver is in your PHP extension directory and enable it in your PHP installation's php.ini file by adding `extension=php_sqlsrv.dll` and/or `extension=php_pdo_sqlsrv.dll` to it.  If necessary, specify the extension directory using `extension_dir`, for example: `extension_dir = "C:\PHP\ext"`. Note that the precompiled binaries have different names -- substitute accordingly in php.ini. For more details on loading the drivers, see [Loading the PHP SQL Driver](https://docs.microsoft.com/en-us/sql/connect/php/loading-the-php-sql-driver) on MSDN.
+
+Finally, restart the Web server.
+
+## Install (UNIX)
+
+For full instructions on installing the drivers on all supported Unix platforms, see [the installation instructions on MSDN](https://docs.microsoft.com/en-us/sql/connect/php/installation-tutorial-linux-mac).
 
 ## Sample Code
-For samples, please see the sample folder.  For setup instructions, see [here] [phpazure]
+For PHP code samples, please see the [sample](https://github.com/Microsoft/msphpsql/tree/master/sample) folder or the [code samples on MSDN](https://docs.microsoft.com/en-us/sql/connect/php/code-samples-for-php-sql-driver).
 
-## Limitations
+## Limitations and Known Issues
+Please refer to [Releases](https://github.com/Microsoft/msphpsql/releases) for the latest limitations and known issues.
 
-- This release contains the PHP 7 port of the SQLSRV and PDO_SQLSRV drivers, and does not provide backwards compatibility with PHP 5.
-- Binding output parameter using emulate prepare is not supported.
+## Version number
+The version numbers of the PHP drivers follow [semantic versioning](http://semver.org/):
 
-## Known Issues
--  User defined data types and SQL_VARIANT.
+Given a version number MAJOR.MINOR.PATCH, 
+
+ - MAJOR version is incremented when an incompatible API change is made, 
+ - MINOR version is incremented when functionality is added in a backwards-compatible manner, and
+ - PATCH version is incremented when backwards-compatible bug fixes are made.
+ 
+The version number may have trailing pre-release version identifiers to indicate the stability and/or build metadata.
+
+- Pre-release version is denoted by a hyphen followed by `preview` or `RC` and may be followed by a series of dot separated identifiers. Production quality releases do not contain the pre-release version. `preview` has lower precedence than `RC`. Example of precedence: *preview < preview.1 < RC < RC.1*. Note that the PECL package version numbers do not have the hyphen before the pre-release version, owing to restrictions in PECL. Example of a PECL package version number: 1.2.3preview
+- Build metadata may be denoted by a plus sign followed by 4 or 5 digits, such as  `1.2.3-preview+5678` or `1.2.3+5678`. Build metadata does not figure into the precedence order.
 
 ## Future Plans
-- Expand SQL 16 Feature Support (example: Always Encrypted)
-- Build Verification/Fundamental Tests
-- Bug Fixes
+- Expand SQL Server 2016 feature support (example: Always Encrypted)
+- Add more verification/fundamental tests
+- Bug fixes
 
 ## Guidelines for Reporting Issues
 We appreciate you taking the time to test the driver, provide feedback and report any issues.  It would be extremely helpful if you:
 
 - Report each issue as a new issue (but check first if it's already been reported)
-- Try to be detailed in your report. Useful information for good bug reports include:
+- Try to be detailed in your report. Useful information for good bug reports includes:
   * What you are seeing and what the expected behaviour is
+  * Can you connect to SQL Server via `sqlcmd`? 
   * Which driver: SQLSRV or PDO_SQLSRV?
-  * Environment details: e.g. PHP version, thread safe (TS) or non-thread safe (NTS), 32-bit &/or 64-bit?
-  * Table schema (for some issues the data types make a big difference!)
+  * Environment details: e.g. PHP version, thread safe (TS) or non-thread safe (NTS), 32-bit or 64-bit?
+  * Table schema (for some issues, the data types make a big difference!)
   * Any other relevant information you want to share
 - Try to include a PHP script demonstrating the isolated problem.
 
@@ -108,15 +111,15 @@ Thank you!
 ## FAQs
 **Q:** Can we get dates for any of the Future Plans listed above?
 
-**A:** At this time, Microsoft is not able to announce dates. We are working extremely hard to release future versions of the driver. We will share future plans once they solidify over the next few weeks. 
+**A:** At this time, Microsoft is not able to announce dates. We are working hard to release future versions of the driver and will share future plans as appropriate. 
 
 **Q:** What's next?
 
-**A:** On Jan 29, 2016 we released an early technical preview for our PHP Driver and several since. We will continue to release frequently to improve the quality of our driver.
+**A:** On March 23, 2018 we released the production release version 5.2.0 of our PHP Driver. We will continue working on our future plans and releasing previews of upcoming releases frequently.
 
 **Q:** Is Microsoft taking pull requests for this project?
 
-**A:** We will not be seeking to take pull requests until GA, Build Verification, and Fundamental tests are released. At this point Microsoft will also begin actively developing using this GitHub project as the prime repository.
+**A:** Yes. Please submit pull requests to the **dev** branch and not the **master** branch.
 
 
 
@@ -124,9 +127,13 @@ Thank you!
 
 The Microsoft Drivers for PHP for SQL Server are licensed under the MIT license.  See the LICENSE file for more details.
 
+## Code of conduct
+
+This project has adopted the Microsoft Open Source Code of Conduct. For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
+
 ## Resources
 
-**Documentation**: [MSDN Online Documentation][phpdoc]. 
+**Documentation**: [MSDN Online Documentation][phpdoc].
 
 **Team Blog**: Browse our blog for comments and announcements from the team in the [team blog][blog].
 
@@ -134,20 +141,30 @@ The Microsoft Drivers for PHP for SQL Server are licensed under the MIT license.
 
 [blog]: http://blogs.msdn.com/b/sqlphp/
 
-[project]: https://github.com/Azure/msphpsql
+[project]: https://github.com/Microsoft/msphpsql
 
-[issues]: https://github.com/Azure/msphpsql/issues
+[issues]: https://github.com/Microsoft/msphpsql/issues
 
 [phpweb]: http://php.net
 
 [phpbuild]: https://wiki.php.net/internals/windows/stepbystepbuild
 
-[phpdoc]: http://msdn.microsoft.com/en-us/library/dd903047%28SQL.11%29.aspx
+[phpdoc]: http://msdn.microsoft.com/library/dd903047%28SQL.11%29.aspx
 
-[odbc11]: https://www.microsoft.com/en-us/download/details.aspx?id=36434
+[odbc11]: https://www.microsoft.com/download/details.aspx?id=36434
 
-[odbc13]: https://www.microsoft.com/en-us/download/details.aspx?id=50420
+[odbc13]: https://www.microsoft.com/download/details.aspx?id=50420
 
-[phpazure]: https://azure.microsoft.com/en-us/documentation/articles/sql-database-develop-php-simple-windows/
+[odbc17]: https://github.com/Microsoft/msphpsql/tree/master/ODBC%2017%20binaries%20preview
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+[odbcLinux]: https://msdn.microsoft.com/library/hh568454(v=sql.110).aspx
+
+[PHPMan]: http://php.net/manual/install.unix.php
+
+[LinuxDM]: https://msdn.microsoft.com/library/hh568449(v=sql.110).aspx
+
+[httpd_source]: http://httpd.apache.org/
+
+[apr_source]: http://apr.apache.org/
+
+[httpdconf]: http://php.net/manual/en/install.unix.apache2.php
